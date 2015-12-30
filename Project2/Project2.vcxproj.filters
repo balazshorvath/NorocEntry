@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\NorocNet">
+      <UniqueIdentifier>{7334d2e4-c8b4-4950-a310-c77d3ff42363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NorocNet">
+      <UniqueIdentifier>{b5805b09-1b5d-498a-92ca-6ab550829cc3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocUDPServer.cpp">
+      <Filter>Source Files\NorocNet</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocPacket.cpp">
+      <Filter>Source Files\NorocNet</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocMessaging.cpp">
+      <Filter>Source Files\NorocNet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Declarations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocMessaging.h">
+      <Filter>Header Files\NorocNet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocPacket.h">
+      <Filter>Header Files\NorocNet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocUDPServer.h">
+      <Filter>Header Files\NorocNet</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
