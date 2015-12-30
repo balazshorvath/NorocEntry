@@ -2,17 +2,19 @@
 
 
 int main(int argc, char* argv[]) {
-	SOCKET serverSocket;
+	SOCKET serverSocket = INVALID_SOCKET;
 	string input;
 	thread tcpServer, udpServer;
 	running = true;
 	
-	serverSocket = TCPServerInit(argv[1]);
 
 	while (true) {
 		cin >> input;
 		if (input == "start") {
 			if (!running) {
+				if(serverSocket == INVALID_SOCKET)
+					serverSocket = TCPServerInit(argv[1]);
+				
 				tcpServer = thread(TCPServer, &serverSocket);
 				udpServer = thread(UDPListener, &argv[2], &argv[3]);
 
@@ -21,6 +23,9 @@ int main(int argc, char* argv[]) {
 			}
 		} else if (input == "stop") {
 			running = false;
+			closesocket(serverSocket);
+			WSACleanup();
+			serverSocket = INVALID_SOCKET;
 		}
 	}
 	
