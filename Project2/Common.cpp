@@ -7,7 +7,6 @@ using namespace std;
 
 #include "Commons.h"
 
-
 void Log(const char* message) {
 	SYSTEMTIME sysTime;
 	GetSystemTime(&sysTime);
