@@ -98,9 +98,12 @@ void TCPServer(SOCKET sock) {
 void TCPClient(SOCKET sock) {
 	char buffer[TCP_MAX_PACKET_SIZE];
 	char errorMsg[3] = { 0 };
+	char session[32] = { 0 };
 	int recvSize;
 	SOCKET database;
 
+	errorMsg[1] = ';';
+	errorMsg[2] = '\n';
 
 	while (running && sock != INVALID_SOCKET) {
 		recvSize = TCPRecv(sock, buffer, TCP_MAX_PACKET_SIZE);
@@ -123,7 +126,7 @@ void TCPClient(SOCKET sock) {
 			continue;
 		}
 
-		switch (buffer[0]) {
+		switch (buffer[0] & 0x0F) {
 			case TCP_MESSAGE_LOGOUT:
 				closesocket(sock);
 				break;
@@ -132,15 +135,40 @@ void TCPClient(SOCKET sock) {
 				TCPSend(database, buffer, recvSize);
 				recvSize = TCPRecv(database, buffer, TCP_MAX_PACKET_SIZE);
 				TCPSend(sock, buffer, recvSize);
+				if (buffer[0] == TCP_MESSAGE_LOGIN) 
+					memcpy_s(session, 24, buffer + 2, 24);
+				
 				break;
 			case TCP_MESSAGE_QUERY:
-			default:
+			case TCP_MESSAGE_UPDATE:
+				if (session[0] == 0) {
+					char requestType = buffer[0];
+					char tmp[2];
+					/*Use recv buffer to deliver to DB*/
+					buffer[0] = DB_SESSION_EXISTS;
+
+					TCPSend(database, buffer, 28);
+					TCPRecv(database, tmp, 2);
+					if (tmp[0] != -32) {
+						errorMsg[0] = TCP_MESSAGE_ERROR | MESSAGE_ERROR_LOGIN_REQ;
+						TCPSend(sock, errorMsg, 3);
+						continue;
+					} 
+					memcpy_s(session, 24, buffer + 2, 24);
+					/*set original back*/
+					buffer[0] = requestType;
+				}
+				TCPSend(database, buffer, recvSize);
+				recvSize = TCPRecv(database, buffer, TCP_MAX_PACKET_SIZE);
 				TCPSend(sock, buffer, recvSize);
+
+				break;
 		}
 	}
 
 	threadCount--;
 }
+
 /*
 void UDPListener(string portRel, string portUnrel) {
 
