@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INCLUDES_H
+#define INCLUDES_H
 
 #include <string>
 #include <iostream>
@@ -13,3 +14,5 @@ using namespace std;
 #include "Commons.h"
 #include "Declarations.h"
 #include "Network.h"
+
+#endif

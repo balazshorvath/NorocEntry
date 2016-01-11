@@ -69,7 +69,6 @@
     <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocMessaging.cpp" />
     <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocPacket.cpp" />
     <ClCompile Include="D:\Uni\Noroc\MMONetworking\NorocNet\NorocUDPServer.cpp" />
-    <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Network.cpp" />
   </ItemGroup>
