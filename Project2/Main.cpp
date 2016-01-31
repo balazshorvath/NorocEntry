@@ -117,20 +117,20 @@ void TCPClient(SOCKET sock) {
 			Sleep(20);
 			continue;
 		}
-		database = TCPConnect("127.0.0.1", "1111");
-		if (database == INVALID_SOCKET) {
-			Log("Cannot connect to DB. Disconnectiong client.");
-			errorMsg[0] = TCP_MESSAGE_ERROR | MESSAGE_ERROR_DB;
-			TCPSend(sock, errorMsg, 3);
-			sock = INVALID_SOCKET;
-			continue;
-		}
 
-		switch (buffer[0] & 0x0F) {
+		switch (buffer[0] ){//& 0x0F) {
 			case TCP_MESSAGE_LOGOUT:
 				closesocket(sock);
 				break;
 			case TCP_MESSAGE_LOGIN:
+				database = TCPConnect("127.0.0.1", "1111");
+				if (database == INVALID_SOCKET) {
+					Log("Cannot connect to DB. Disconnectiong client.");
+					errorMsg[0] = TCP_MESSAGE_ERROR | MESSAGE_ERROR_DB;
+					TCPSend(sock, errorMsg, 3);
+					sock = INVALID_SOCKET;
+					continue;
+				}
 				buffer[1] = ';';
 				TCPSend(database, buffer, recvSize);
 				recvSize = TCPRecv(database, buffer, TCP_MAX_PACKET_SIZE);
@@ -141,21 +141,32 @@ void TCPClient(SOCKET sock) {
 				break;
 			case TCP_MESSAGE_QUERY:
 			case TCP_MESSAGE_UPDATE:
+				database = TCPConnect("127.0.0.1", "1111");
+				if (database == INVALID_SOCKET) {
+					Log("Cannot connect to DB. Disconnectiong client.");
+					errorMsg[0] = TCP_MESSAGE_ERROR | MESSAGE_ERROR_DB;
+					TCPSend(sock, errorMsg, 3);
+					sock = INVALID_SOCKET;
+					continue;
+				}
 				if (session[0] == 0) {
 					char requestType = buffer[0];
+					char requestSubtype = buffer[1];
 					char tmp[2];
 					/*Use recv buffer to deliver to DB*/
 					buffer[0] = DB_SESSION_EXISTS;
 
 					TCPSend(database, buffer, 28);
 					TCPRecv(database, tmp, 2);
-					if (tmp[0] != -32) {
+					//TODO: FIXME!!
+					if (tmp[0] & 0xFF != DB_SESSION_EXISTS & 0xFF) {
 						errorMsg[0] = TCP_MESSAGE_ERROR | MESSAGE_ERROR_LOGIN_REQ;
 						TCPSend(sock, errorMsg, 3);
 						continue;
 					} 
 					memcpy_s(session, 24, buffer + 2, 24);
 					/*set original back*/
+					buffer[0] = requestType;
 					buffer[0] = requestType;
 				}
 				TCPSend(database, buffer, recvSize);
@@ -164,6 +175,7 @@ void TCPClient(SOCKET sock) {
 
 				break;
 		}
+		closesocket(database);
 	}
 
 	threadCount--;
